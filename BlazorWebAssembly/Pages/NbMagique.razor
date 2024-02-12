@@ -1,0 +1,54 @@
+﻿@page "/nbmagique"
+
+<h3>NbMagique</h3>
+
+<p>Devine un nombre entre 1 et 20 :</p>
+
+<input type="number" @bind="InputUser" />
+
+<button @onclick="FindOrNotNumber">Tester</button>
+
+<div>
+    <span>
+        @for (int i = 0; i < HeartsLeft; i++)
+        {
+            <span style="color: red; font-size: 24px;">♥️</span>
+        }
+    </span>
+</div>
+
+@if (Win)
+{
+    <p>Tu as Gagné</p>
+}
+else if (HeartsLeft == 0)
+{
+    <p>Tu as perdu. Le nombre magique était @MagicNumber.</p>
+}
+
+@code {
+    private int InputUser;
+    private int MagicNumber;
+    private bool Win = false;
+    private Random random = new Random();
+    private int HeartsLeft = 5;
+
+    private void FindOrNotNumber()
+    {
+        MagicNumber = random.Next(1, 21);
+
+        if (InputUser == MagicNumber)
+        {
+            Win = true;
+        }
+        else
+        {
+            HeartsLeft--;
+
+            if (HeartsLeft == 0)
+            {
+                Win = false;
+            }
+        }
+    }
+}
