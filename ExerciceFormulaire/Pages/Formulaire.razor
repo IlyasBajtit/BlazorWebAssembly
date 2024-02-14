@@ -1,0 +1,91 @@
+﻿@page "/Formulaire"
+@using System.ComponentModel.DataAnnotations
+@using ExerciceFormulaire.Classes
+
+<h3>Formulaire</h3>
+<EditForm Model="@ContactModel" OnValidSubmit="Submit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="Nom">Nom:</label>
+        <InputText id="Nom" @bind-Value="@ContactModel.Nom" class="form-control" />
+        <ValidationMessage For="@(() => ContactModel.Nom)" />
+    </div>
+
+    <div class="form-group">
+        <label for="Email">Email:</label>
+        <InputText id="Email" @bind-Value="@ContactModel.Email" class="form-control" />
+        <ValidationMessage For="@(() => ContactModel.Email)" />
+    </div>
+
+    <div class="form-group">
+        <label for="Adresse">Adresse:</label>
+        <InputText id="Adresse" @bind-Value="@ContactModel.Adresse" class="form-control" />
+        <ValidationMessage For="@(() => ContactModel.Adresse)" />
+    </div>
+
+    <div class="form-group">
+        <label for="CodePostal">Code Postal:</label>
+        <InputText id="CodePostal" @bind-Value="@ContactModel.CodePostal" class="form-control" />
+        <ValidationMessage For="@(() => ContactModel.CodePostal)" />
+    </div>
+
+    <div class="form-group">
+        <label for="Age">Age:</label>
+        <InputNumber id="Age" @bind-Value="@ContactModel.Age" class="form-control" />
+        <ValidationMessage For="@(() => ContactModel.Age)" />
+    </div>
+
+    <div class="form-group">
+        <label for="DateNaissance">Date de Naissance:</label>
+        <InputDate id="DateNaissance" @bind-Value="@ContactModel.DateNaissance" class="form-control" />
+        <ValidationMessage For="@(() => ContactModel.DateNaissance)" />
+    </div>
+
+    <div class="form-group">
+        <label>
+            <InputCheckbox @bind-Value="@ContactModel.EstMarie" /> Marié(e)
+        </label>
+    </div>
+
+    <div class="form-group">
+        <label>Couleur Favorite:</label>
+        <select class="form-control" @bind="@ContactModel.CouleurFavorite">
+            @foreach (var couleur in Enum.GetValues(typeof(CouleurFavorite)))
+            {
+                <option value="@couleur">@couleur</option>
+            }
+        </select>
+    </div>
+
+<button type="submit" class="btn btn-primary" @onclick="Submit">Validation</button>
+</EditForm>
+
+@if (FormIsValid)
+{
+    <ExerciceFormulaire.Components.Card Contact="ContactModel" />
+}
+
+@code {
+    private Contact ContactModel { get; set; } = new Contact();
+    private bool FormIsValid { get; set; } = false;
+    private EditContext EditContext { get; set; }
+
+    protected override void OnInitialized()
+    {
+        EditContext = new EditContext(ContactModel);
+    }
+
+    private async Task Submit()
+    {
+        if (EditContext.Validate())
+        {
+            FormIsValid = true;
+        }
+        else
+        {
+            FormIsValid = false;
+        }
+    }
+}
