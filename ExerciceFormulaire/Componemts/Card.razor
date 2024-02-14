@@ -1,0 +1,25 @@
+﻿<div class="card-container">
+    <div class="card-item">
+        <p>Résultat : </p>
+    </div>
+    <div class="card-item">
+        <p>Nom : @Contact.Nom</p>
+    </div>
+    <div class="card-item">
+        <p>Email : @Contact.Email</p>
+    </div>
+    <div class="card-item">
+        <p>Date de naissance: @Contact.DateNaissance</p>
+    </div>
+    <div class="card-item">
+        <p>Situation : @(Contact.EstMarie ? "Marié" : "Célibataire")</p>
+    </div>
+    <div class="card-item">
+        <p>Couleure favorite : @Contact.CouleurFavorite</p>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Contact? Contact { get; set; }
+}
